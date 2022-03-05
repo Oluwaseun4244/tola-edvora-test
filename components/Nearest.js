@@ -1,15 +1,8 @@
 import { Stack, Image, HStack, Text, Spacer, Box } from "@chakra-ui/react";
 
 function Nearest({
-  id,
-  map_pc,
   path,
-  date,
-  origin_station,
-  user,
-  distance,
-  city_name,
-  state_name,
+  ride,
 }) {
   return (
     <Stack
@@ -23,7 +16,7 @@ function Nearest({
       <Box w={{base: "100%", md: "250px"}}>
         <Image
           w={"100%"}
-          src={map_pc}
+          src={ride.map_url}
           alt="Dan Abramov"
         />
       </Box>
@@ -31,11 +24,11 @@ function Nearest({
       <Box pl={{ base: "0px", md: "20px" }}>
         <HStack mb={{ base: "20px", md: "30px" }}>
           <Text color="#CFCFCF">Rate id:</Text>
-          <Text color="white">{id}</Text>
+          <Text color="white">{ride.id}</Text>
         </HStack>
         <HStack mb={{ base: "20px", md: "30px" }}>
           <Text color="#CFCFCF">Origin Station:</Text>
-          <Text color="white">{origin_station}</Text>
+          <Text color="white">{ride.origin_station_code}</Text>
         </HStack>
         <HStack mb={{ base: "20px", md: "30px" }}>
           <Text color="#CFCFCF">station_path:</Text>
@@ -48,11 +41,11 @@ function Nearest({
         </HStack>
         <HStack mb={{ base: "20px", md: "30px" }}>
           <Text color="#CFCFCF">Date:</Text>
-          <Text color="white">{date}</Text>
+          <Text color="white">{ride.date}</Text>
         </HStack>
         <HStack>
           <Text color="#CFCFCF">Distance :</Text>
-          <Text color="white">{distance}</Text>
+          <Text color="white">{ride.distance}</Text>
         </HStack>
       </Box>
       <Spacer />
@@ -64,7 +57,7 @@ function Nearest({
             color="#FFFFFF"
             border="1px solid #000000"
           >
-            {city_name}
+            {ride.city}
           </Text>
           <Text
             p="5px"
@@ -72,7 +65,7 @@ function Nearest({
             color="#FFFFFF"
             border="1px solid #000000"
           >
-            {state_name}
+            {ride.state}
           </Text>
         </HStack>
       </Box>
