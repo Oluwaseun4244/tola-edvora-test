@@ -269,7 +269,7 @@ export default function Home({ rides, user }) {
     setNearest(near);
     setPastrides(get_pastrides);
     setUpComing(get_upcomingRides);
-    setStillLoading(false);
+    // setStillLoading(false);
     setLodingUpComing(false);
     setLodingNearest(false);
   }, [rides]);
@@ -363,9 +363,9 @@ export default function Home({ rides, user }) {
               <TabPanel>
                 {stillLoading ? (
                   <Button
-                    w="400px"
+                    w="100%"
+                    h="100px"
                     isLoading
-                    loadingText="Submitting"
                     colorScheme="teal"
                     variant="outline"
                   />
@@ -389,7 +389,6 @@ export default function Home({ rides, user }) {
                     </Center>
                     <Center>
                       {!loadingNearest ? (
-                       
                         <Button
                           onClick={loadNearest}
                           color="white"
@@ -400,12 +399,10 @@ export default function Home({ rides, user }) {
                           border="2px"
                           borderColor="green.500"
                           mt="20px"
-                      
                         >
                           Refresh Page
                         </Button>
                       ) : (
-                  
                         <Button
                           color="white"
                           size="md"
