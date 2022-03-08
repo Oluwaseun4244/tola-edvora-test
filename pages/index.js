@@ -269,7 +269,7 @@ export default function Home({ rides, user }) {
     setNearest(near);
     setPastrides(get_pastrides);
     setUpComing(get_upcomingRides);
-    // setStillLoading(false);
+    setStillLoading(false);
     setLodingUpComing(false);
     setLodingNearest(false);
   }, [rides]);
