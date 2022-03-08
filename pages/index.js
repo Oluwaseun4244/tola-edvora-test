@@ -18,7 +18,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { BiMenuAltLeft } from "react-icons/bi";
-
+import { useRouter } from "next/router";
 import Nearest from "../components/Nearest";
 import PastRides from "../components/PastRides";
 import UpcomingRides from "../components/UpcomingRides";
@@ -26,6 +26,7 @@ import FilterModal from "../components/FilterModal";
 import React, { useEffect, useState } from "react";
 
 export default function Home({ rides, user }) {
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [nearest, setNearest] = useState([]);
   const [pastrides, setPastrides] = useState([]);
@@ -33,6 +34,19 @@ export default function Home({ rides, user }) {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [tab, setTab] = useState("nearest");
+  const [loadingUpcoming, setLodingUpComing] = useState(false);
+  const [loadingNearest, setLodingNearest] = useState(false);
+  const [stillLoading, setStillLoading] = useState(true);
+
+  const loadUpcoming = () => {
+    setLodingUpComing(true);
+    router.push("/");
+  };
+
+  const loadNearest = () => {
+    setLodingNearest(true);
+    router.push("/");
+  };
 
   let date = new Date().getTime();
 
@@ -255,6 +269,9 @@ export default function Home({ rides, user }) {
     setNearest(near);
     setPastrides(get_pastrides);
     setUpComing(get_upcomingRides);
+    setStillLoading(false);
+    setLodingUpComing(false);
+    setLodingNearest(false);
   }, [rides]);
   return (
     <Box>
@@ -344,7 +361,15 @@ export default function Home({ rides, user }) {
 
             <TabPanels>
               <TabPanel>
-                {nearest.length ? (
+                {stillLoading ? (
+                  <Button
+                    w="400px"
+                    isLoading
+                    loadingText="Submitting"
+                    colorScheme="teal"
+                    variant="outline"
+                  />
+                ) : nearest.length ? (
                   nearest.map((ride, index) => {
                     return (
                       <Nearest
@@ -363,7 +388,24 @@ export default function Home({ rides, user }) {
                       </Text>
                     </Center>
                     <Center>
-                      <LinkBox mt="20px" as={Link} href="/">
+                      {!loadingNearest ? (
+                       
+                        <Button
+                          onClick={loadNearest}
+                          color="white"
+                          size="md"
+                          height="48px"
+                          bg={"teal"}
+                          width="200px"
+                          border="2px"
+                          borderColor="green.500"
+                          mt="20px"
+                      
+                        >
+                          Refresh Page
+                        </Button>
+                      ) : (
+                  
                         <Button
                           color="white"
                           size="md"
@@ -372,11 +414,13 @@ export default function Home({ rides, user }) {
                           width="200px"
                           border="2px"
                           borderColor="green.500"
-                          // _hover={"teal"}
-                        >
-                          Refresh Page
-                        </Button>
-                      </LinkBox>
+                          mt="20px"
+                          isLoading
+                          loadingText="Loading Nearests"
+                          colorScheme="teal"
+                          variant="outline"
+                        />
+                      )}
                     </Center>
                   </>
                 )}
@@ -401,8 +445,10 @@ export default function Home({ rides, user }) {
                       </Text>
                     </Center>
                     <Center>
-                      <LinkBox mt="20px" as={Link} href="/">
+                      {!loadingUpcoming ? (
                         <Button
+                          onClick={loadUpcoming}
+                          mt="20px"
                           color="white"
                           size="md"
                           height="48px"
@@ -414,7 +460,22 @@ export default function Home({ rides, user }) {
                         >
                           Refresh Page
                         </Button>
-                      </LinkBox>
+                      ) : (
+                        <Button
+                          isLoading
+                          loadingText="Refreshing"
+                          colorScheme="teal"
+                          variant="outline"
+                          mt="20px"
+                          color="white"
+                          size="md"
+                          height="48px"
+                          bg={"teal"}
+                          width="200px"
+                          border="2px"
+                          borderColor="green.500"
+                        />
+                      )}
                     </Center>
                   </>
                 )}
@@ -465,7 +526,7 @@ export default function Home({ rides, user }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const res = await fetch("https://assessment.api.vweb.app/rides");
   const resUser = await fetch("https://assessment.api.vweb.app/user");
   const rides = await res.json();
