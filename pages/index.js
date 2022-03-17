@@ -275,6 +275,12 @@ export default function Home({ rides, user }) {
   }, [rides]);
   return (
     <Box>
+        <Head>
+        <title>Wallets</title>
+        <meta name="edvora" content="edvora" />
+        <script src="//code.tidio.co/puwk3ha8tsglkxkxjcziilxa7o5sipim.js" async></script>
+        {/* <link rel="icon" href="/site.ico" /> */}
+      </Head>
       <FilterModal
         rides={rides}
         isOpen={isOpen}
