@@ -17,6 +17,7 @@ import {
   LinkBox,
   Link,
 } from "@chakra-ui/react";
+import Head from "next/head";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { useRouter } from "next/router";
 import Nearest from "../components/Nearest";
